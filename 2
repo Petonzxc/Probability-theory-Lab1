@@ -1,0 +1,30 @@
+#include <iostream>
+#include <random>
+#include <vector>
+#include <iomanip>
+
+using namespace std;
+const int NUMBER_OF_EXPRERIMETS = 1e5;
+
+long double get_random_time_from_0_to_60() {
+    std::random_device rd;
+    std::mt19937 e2(rd());
+    std::uniform_real_distribution<> dist(0, 60);
+
+    return dist(e2);
+}
+
+int main() {
+    cout << fixed << setprecision(20);
+    long double successful_experiment = 0;
+    for (int i = 0; i < NUMBER_OF_EXPRERIMETS; i++) {
+        long double x = get_random_time_from_0_to_60();
+        long double y = get_random_time_from_0_to_60();
+        long double z = get_random_time_from_0_to_60();
+        if (abs(x - y) <= 10 || abs(x - z) <= 10 || abs(y - z) <= 10) {
+            successful_experiment++;
+        }
+    }
+    cout << successful_experiment / NUMBER_OF_EXPRERIMETS;
+    return 0;
+}
