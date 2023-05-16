@@ -1,0 +1,40 @@
+from random import randint
+from _decimal import Decimal
+
+
+def generate_two_people(x, n):
+    while True:
+        a = randint(0, n)
+        b = randint(0, n)
+        if a != b and a != x and b != x:
+            break
+    return a, b
+
+
+ns = [1000, 100000]
+rs = [5, 7, 10, 15]
+experiment_count = 10000
+for n in ns:
+    for r in rs:
+        successful_experiment = Decimal(0)
+        for _ in range(0, experiment_count):
+            cur_generation = list()
+            cur_generation.append(0)
+            need_break = False
+            for _ in range(0, r):
+                if need_break:
+                    break
+                new_generation = set()
+                for x in cur_generation:
+                    if need_break:
+                        break
+                    q, w = generate_two_people(x, n + 1)
+                    if q == 0 or w == 0:
+                        successful_experiment = successful_experiment + Decimal(1)
+                        need_break = True
+                    new_generation.add(q)
+                    new_generation.add(w)
+                cur_generation = new_generation
+        print(
+            f"Результаты эксперимента для n={n} и r={r} \n "
+            f"Ответ: {1 - successful_experiment / experiment_count:0,.4f} \n")
